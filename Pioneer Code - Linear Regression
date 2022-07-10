@@ -1,0 +1,38 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def estimate_coef(x, y):
+    n = np.size(x)
+    mean_x = np.mean(x)
+    mean_y = np.mean(y)
+    SS_xy = np.sum(y*x) - n*mean_y*mean_x
+    SS_xx = np.sum(x*x) - n*mean_x*mean_x
+    # regression coefficients
+    k = SS_xy / SS_xx
+    b = mean_y - k*mean_x
+    return (b, k)
+
+def plot_regression_line(x, y, m):
+    # scatter plot
+    plt.scatter(x, y, color = "m",
+            marker = "o", s = 30)
+    # predicted response vector
+    y_predicted = m[0] + m[1]*x
+    # regression line
+    plt.plot(x, y_predicted, color = "g")
+    plt.xlabel('inverse_G_values')
+    plt.ylabel('k_values')
+    plt.show()
+
+def main():
+    # data
+    x = np.array([1/20, 1/19, 1/18, 1/17, 1/16, 1/15, 1/14, 1/13, 1/12, 1/11, 1/10, 1/9, 1/8, 1/7, 1/6, 1/5, 1/4, 1/3, 1/2, 1/1, 1/0.8, 1/0.6])
+    y = np.array([1.30248, 1.37103, 1.44720, 1.53233, 1.62810, 1.73664, 1.86068, 2.00382, 2.17080, 2.36814, 2.60496, 2.89439, 3.25619, 3.72136, 4.34160, 5.20991, 6.51238, 8.68315, 13.02469, 26.04938, 32.56170, 43.41563])
+    # estimate coefficients
+    m = estimate_coef(x, y)
+    print("Estimated coefficients:\nb_0 = {} \
+        \nb_1 = {}".format(m[0], m[1]))
+    plot_regression_line(x, y, m)
+
+if __name__ == "__main__":
+    main()
